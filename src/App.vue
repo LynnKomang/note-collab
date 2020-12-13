@@ -3,7 +3,8 @@
     <h1 v-if="tasks === null" class="text-center">Loading tasks...</h1>
     <div v-else>
       <Task v-for="task in tasks" :key="task.id" class="mx-auto col-4" :task="task"
-      @on-task-submit="updateTasks(task)" />
+      @on-task-submit="updateTask(task)"
+      @on-task-delete="deleteTask(task)" />
       <CreateTask @on-task-created="createTask" />
     </div>
   </div>
@@ -46,7 +47,7 @@ export default {
         this.stompClient.send("/app/tasks/add", JSON.stringify(newTask));
       }
     },
-    updateTasks(updatedTask) {
+    updateTask(updatedTask) {
       console.log("Updating Tasks to server...");
 
       if (this.isSocketConnected) {

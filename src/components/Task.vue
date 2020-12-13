@@ -7,6 +7,9 @@
             </div>
             <textarea rows=4 class="w-100" v-model="task.content" @input="emitTask"></textarea>
             <p class="card-text text-danger">Deadline: {{ task.deadline }}</p>
+            <div class="text-end">
+                <button class="btn btn-danger" @click="deleteTask">Delete</button>
+            </div>
         </div>
     </div>
 </template>
@@ -22,6 +25,9 @@ export default {
     methods: {
         emitTask() {
             this.$emit('on-task-submit');
+        },
+        deleteTask() {
+            this.$emit('on-task-delete');
         }
     },
 }
