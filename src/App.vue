@@ -1,8 +1,9 @@
 <template>
   <div id="app" class="container py-5">
+    <h1 class="display-2 mb-5">Task Manager</h1>
     <h1 v-if="tasks === null" class="text-center">Loading tasks...</h1>
     <div v-else>
-      <Task v-for="task in tasks" :key="task.id" class="mx-auto col-4" :task="task"
+      <Task v-for="task in tasks" :key="task.id" class="mx-auto mb-4" :task="task"
       @on-task-submit="updateTask(task)"
       @on-task-delete="deleteTask(task)" />
       <CreateTask @on-task-created="createTask" />
@@ -99,3 +100,9 @@ export default {
   }
 }
 </script>
+
+<style>
+body {
+  background-color: #e5e5e5;
+}
+</style>
