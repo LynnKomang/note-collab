@@ -5,10 +5,10 @@
                 <h3 class="card-title">{{ task.title }}</h3>
                 <p class="card-text text-muted">{{ task.date }}</p>
             </div>
-            <p class="card-text">{{ task.content }}</p>
+            <textarea rows=4 class="w-100" v-model="task.content" @input="emitTask"></textarea>
             <p class="card-text text-danger">Deadline: {{ task.deadline }}</p>
             <div class="text-end">
-                <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-success" @click="emitTask">Submit</button>
             </div>
         </div>
     </div>
@@ -21,6 +21,11 @@ export default {
             type: Object,
             required: true,
         }
-    }
+    },
+    methods: {
+        emitTask() {
+            this.$emit('on-task-submit');
+        }
+    },
 }
 </script>

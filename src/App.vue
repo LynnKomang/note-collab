@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="container py-5">
-    <Task class="mx-auto col-4" :task="{title: 'Turn on the dishwasher', content: 'This is the description of the task', date: '1.1.2021', deadline: '1.1.2022'}" />
+    <h1 v-if="returnedTask === null" class="text-center">Loading tasks...</h1>
+    <Task v-else class="mx-auto col-4" :task="returnedTask" @on-task-submit="updateTasks" />
   </div>
 </template>
 
@@ -20,10 +21,17 @@ export default {
   },
   methods: {
     getTasks() {
-      console.log("Getting Tasks from server.");
+      console.log("Getting Tasks from server...");
 
       if (this.stompClient && this.stompClient.connected) {
         this.stompClient.send("/app/tasks");
+      }
+    },
+    updateTasks() {
+      console.log("Updating Tasks to server...");
+
+      if (this.stompClient && this.stompClient.connected) {
+        this.stompClient.send("/app/tasks/update", JSON.stringify(this.returnedTask));
       }
     },
     connect() {
