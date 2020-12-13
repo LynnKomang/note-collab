@@ -1,7 +1,11 @@
 <template>
   <div id="app" class="container py-5">
-    <h1 v-if="returnedTask === null" class="text-center">Loading tasks...</h1>
-    <Task v-else class="mx-auto col-4" :task="returnedTask" @on-task-submit="updateTasks" />
+    <h1 v-if="tasks === null" class="text-center">Loading tasks...</h1>
+    <div v-else>
+      <Task v-for="task in tasks" :key="task.id" class="mx-auto col-4" :task="task"
+      @on-task-submit="updateTasks(task)" />
+      <CreateTask @on-task-created="createTask" />
+    </div>
   </div>
 </template>
 
@@ -10,28 +14,50 @@ import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 
 import Task from './components/Task.vue'
+import CreateTask from './components/CreateTask.vue';
+
 export default {
   name: 'App',
+  components: {
+    Task,
+    CreateTask,
+  },
   data: () => ({
-    returnedTask: null,
+    tasks: null,
     isConnected: false,
   }),
-  components: {
-    Task
+  computed: {
+    isSocketConnected() {
+      return this.stompClient && this.stompClient.connected;
+    }
   },
   methods: {
     getTasks() {
       console.log("Getting Tasks from server...");
 
-      if (this.stompClient && this.stompClient.connected) {
+      if (this.isSocketConnected) {
         this.stompClient.send("/app/tasks");
       }
     },
-    updateTasks() {
+    createTask(newTask) {
+      console.log("Creating a task and sending it to the server...");
+
+      if (this.isSocketConnected) {
+        this.stompClient.send("/app/tasks/add", JSON.stringify(newTask));
+      }
+    },
+    updateTasks(updatedTask) {
       console.log("Updating Tasks to server...");
 
-      if (this.stompClient && this.stompClient.connected) {
-        this.stompClient.send("/app/tasks/update", JSON.stringify(this.returnedTask));
+      if (this.isSocketConnected) {
+        this.stompClient.send("/app/tasks/update", JSON.stringify(updatedTask));
+      }
+    },
+    deleteTask(taskToDelete) {
+      console.log("Deleting a task from the server...");
+
+      if (this.isSocketConnected) {
+        this.stompClient.send("/app/tasks/delete", JSON.stringify(taskToDelete));
       }
     },
     connect() {
@@ -41,11 +67,14 @@ export default {
       this.stompClient.connect({},
       (frame) => {
         this.isConnected = true;
+
         console.log(frame);
+
         this.stompClient.subscribe("/output/tasks", (tick) => {
           console.log(tick);
-          this.returnedTask = JSON.parse(tick.body);
+          this.tasks = JSON.parse(tick.body);
         });
+
         this.getTasks();
       },
       (error) => {

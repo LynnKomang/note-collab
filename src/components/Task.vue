@@ -7,9 +7,6 @@
             </div>
             <textarea rows=4 class="w-100" v-model="task.content" @input="emitTask"></textarea>
             <p class="card-text text-danger">Deadline: {{ task.deadline }}</p>
-            <div class="text-end">
-                <button class="btn btn-success" @click="emitTask">Submit</button>
-            </div>
         </div>
     </div>
 </template>
