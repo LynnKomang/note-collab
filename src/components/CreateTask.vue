@@ -13,7 +13,10 @@
                     <form>
                         <div class="mb-3">
                             <label class="form-label">Task title</label>
-                            <input type="text" class="form-control" v-model="title">
+                            <input type="text" class="form-control" :class="isInputValid ? 'is-valid' : 'is-invalid'" v-model="title">
+                            <div class="invalid-feedback">
+                                Input must be between 3 to 20 characters and not include special symbols.
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Content</label>
@@ -27,7 +30,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="createTask">Create</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" :disabled="!isInputValid" @click="createTask">Create</button>
                 </div>
                 </div>
             </div>
@@ -45,6 +48,13 @@ export default {
         content: "",
         deadline: "",
     }),
+    computed: {
+        isInputValid() {
+            const titleRegex = /^[A-Za-z0-9 \\.?!,]{3,20}$/;
+
+            return titleRegex.exec(this.title);
+        }
+    },
     methods: {
         createTask() {
             const newTask = {
