@@ -8,6 +8,7 @@
       @on-task-submit="updateTask(task)"
       @on-task-delete="deleteTask(task)" />
       <CreateTask @on-task-created="createTask" />
+      <CreateCategory />
     </div>
   </div>
 </template>
@@ -18,12 +19,14 @@ import Stomp from "webstomp-client";
 
 import Task from './components/Task.vue'
 import CreateTask from './components/CreateTask.vue';
+import CreateCategory from './components/CreateCategory.vue';
 
 export default {
   name: 'App',
   components: {
     Task,
     CreateTask,
+    CreateCategory,
   },
   data: () => ({
     tasks: null,
