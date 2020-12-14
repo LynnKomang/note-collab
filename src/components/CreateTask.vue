@@ -15,7 +15,7 @@
                             <label class="form-label">Task title</label>
                             <input type="text" class="form-control" :class="isInputValid ? 'is-valid' : 'is-invalid'" v-model="title">
                             <div class="invalid-feedback">
-                                Input must be between 3 to 20 characters and not include special symbols.
+                                Input must be between 3 to 50 characters and not include special symbols.
                             </div>
                         </div>
                         <div class="mb-3">
@@ -50,7 +50,7 @@ export default {
     }),
     computed: {
         isInputValid() {
-            const titleRegex = /^[A-Za-z0-9 \\.?!,]{3,20}$/;
+            const titleRegex = /^[A-Za-z0-9 \\.?!,]{3,50}$/;
 
             return titleRegex.exec(this.title);
         }
@@ -61,7 +61,7 @@ export default {
                 title: this.title,
                 content: this.content,
                 date: format(new Date(), "dd.MM.yyyy"),
-                deadline: this.deadline,
+                deadline: format(new Date(this.deadline), "dd.MM.yyyy"),
             };
 
             this.$emit("on-task-created", newTask);
