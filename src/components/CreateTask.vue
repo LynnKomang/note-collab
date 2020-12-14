@@ -61,7 +61,7 @@ export default {
                 title: this.title,
                 content: this.content,
                 date: format(new Date(), "dd.MM.yyyy"),
-                deadline: format(new Date(this.deadline), "dd.MM.yyyy"),
+                deadline: this.deadline === '' ? '' : format(new Date(this.deadline), "dd.MM.yyyy"),
             };
 
             this.$emit("on-task-created", newTask);
