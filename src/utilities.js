@@ -4,9 +4,7 @@ export const getTextColor = (colorHex) => {
     parseInt(colorHex.slice(3, 5), 16),
     parseInt(colorHex.slice(5), 16)
   ];
-
-  console.log(colors);
-
+  
   const [r, g, b] = colors.map((color) => {
      color /= 255.0;
 
@@ -22,4 +20,15 @@ export const getTextColor = (colorHex) => {
   const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
   return L > 0.179 ? '#000000' : '#ffffff';
+};
+
+export const getCategoryStyle = (category) => {
+  if (category === null) {
+    return '';
+  } else {
+      return {
+          'background-color': category.color,
+          'color': getTextColor(category.color),
+      };
+  }
 };

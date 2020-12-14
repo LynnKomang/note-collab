@@ -1,13 +1,13 @@
 <template>
   <div id="app" class="container py-5">
     <h1 class="display-2 mb-5">Task Manager</h1>
-    <h1 v-if="tasks === null" class="text-center">Loading tasks...</h1>
+    <h1 v-if="tasks === null || categories === null" class="text-center">Loading tasks...</h1>
     <div v-else>
       <h2 v-if="tasks.length === 0" class="text-center">It seems like there aren't any tasks here...</h2>
       <Task v-for="task in tasks" :key="task.id" class="mx-auto mb-4" :task="task"
       @on-task-submit="updateTask(task)"
       @on-task-delete="deleteTask(task)" />
-      <CreateTask @on-task-created="createTask" />
+      <CreateTask @on-task-created="createTask" :categories="categories" />
       <CreateCategory @on-category-created="createCategory" />
     </div>
   </div>

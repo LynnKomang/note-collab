@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between align-items-baseline mb-2">
                 <div class="d-flex align-items-center">
                     <h3 class="card-title me-2">{{ task.title }}</h3>
-                    <span class="badge bg-primary">Something</span>
+                    <span class="badge" :style="getCategoryStyle(task.category)">{{ task.category.name }}</span>
                 </div>
                 <p class="card-text text-muted">{{ task.date }}</p>
             </div>
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import { getCategoryStyle } from '../utilities.js';
+
 export default {
     props: {
         task: {
@@ -31,7 +33,8 @@ export default {
         },
         deleteTask() {
             this.$emit('on-task-delete');
-        }
+        },
+        getCategoryStyle,
     },
 }
 </script>

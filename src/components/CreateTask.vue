@@ -26,6 +26,13 @@
                             <label class="form-label">Deadline</label>
                             <input type="date" class="form-control" v-model="deadline">
                         </div>
+                        <div>
+                            <label class="form-label">Category</label>
+                            <select class="form-select" v-model="selectedCategory" :style="getCategoryStyle(selectedCategory)" >
+                                <option v-for="category in categories" :key="category.id" :value="category"
+                                :style="getCategoryStyle(category)">{{ category.name }}</option>
+                            </select>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -41,18 +48,26 @@
 
 <script>
 import { format } from 'date-fns';
+import { getCategoryStyle } from '../utilities.js';
 
 export default {
+    props: {
+        categories: {
+            type: Array,
+            required: true,
+        }
+    },
     data: () => ({
         title: "",
         content: "",
         deadline: "",
+        selectedCategory: null,
     }),
     computed: {
         isInputValid() {
-            const titleRegex = /^[A-Za-z0-9 \\.?!,]{3,50}$/;
+            const titleRegex = /^[A-Za-z0-9 \\.?!,\\:]{3,50}$/;
 
-            return titleRegex.exec(this.title);
+            return titleRegex.exec(this.title) && this.selectedCategory !== null;
         }
     },
     methods: {
@@ -62,10 +77,12 @@ export default {
                 content: this.content,
                 date: format(new Date(), "dd.MM.yyyy"),
                 deadline: this.deadline === '' ? '' : format(new Date(this.deadline), "dd.MM.yyyy"),
+                category: this.selectedCategory,
             };
 
             this.$emit("on-task-created", newTask);
-        }
+        },
+        getCategoryStyle,
     },
 }
 </script>

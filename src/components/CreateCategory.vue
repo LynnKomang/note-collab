@@ -42,7 +42,7 @@ export default {
     }),
     computed: {
         isInputValid() {
-            const nameRegex = /^[A-Za-z0-9 \\.?!,]{3,20}$/;
+            const nameRegex = /^[A-Za-z0-9 \\.?!,\\:]{3,20}$/;
 
             return nameRegex.exec(this.name);
         },
