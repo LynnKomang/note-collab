@@ -13,7 +13,7 @@
                     <form>
                         <div class="mb-3">
                             <label class="form-label">Task title</label>
-                            <input type="text" class="form-control" :class="isInputValid ? 'is-valid' : 'is-invalid'" v-model="title">
+                            <input type="text" class="form-control" :class="isTitleValid ? 'is-valid' : 'is-invalid'" v-model="title">
                             <div class="invalid-feedback">
                                 Input must be between 3 to 50 characters and not include special symbols.
                             </div>
@@ -64,10 +64,13 @@ export default {
         selectedCategory: null,
     }),
     computed: {
-        isInputValid() {
+        isTitleValid() {
             const titleRegex = /^[A-Za-z0-9 \\.?!,\\:]{3,50}$/;
 
-            return titleRegex.exec(this.title) && this.selectedCategory !== null;
+            return titleRegex.exec(this.title);
+        },
+        isInputValid() {
+            return this.isTitleValid && this.selectedCategory !== null;
         }
     },
     methods: {
