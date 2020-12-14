@@ -1,15 +1,20 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import Blank from '../views/Blank.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Blank',
+    component: Blank
   },
+  {
+    path: '/workspace/:id',
+    component: Home
+  }
 ];
 
 const router = new VueRouter({
