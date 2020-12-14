@@ -13,6 +13,7 @@ const routes = [
   },
   {
     path: '/workspace/:id',
+    name: 'WorkSpace',
     component: Home
   }
 ];
