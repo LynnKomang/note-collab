@@ -8,7 +8,7 @@
       @on-task-submit="updateTask(task)"
       @on-task-delete="deleteTask(task)" />
       <CreateTask @on-task-created="createTask" />
-      <CreateCategory />
+      <CreateCategory @on-category-created="createCategory" />
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@ export default {
   },
   data: () => ({
     tasks: null,
+    categories: null,
     isConnected: false,
   }),
   computed: {
@@ -39,10 +40,17 @@ export default {
   },
   methods: {
     getTasks() {
-      console.log("Getting Tasks from server...");
+      console.log("Getting tasks from server...");
 
       if (this.isSocketConnected) {
         this.stompClient.send("/app/tasks");
+      }
+    },
+    getCategories() {
+      console.log("Getting categories from server...");
+
+      if (this.isSocketConnected) {
+        this.stompClient.send("/app/categories");
       }
     },
     createTask(newTask) {
@@ -50,6 +58,13 @@ export default {
 
       if (this.isSocketConnected) {
         this.stompClient.send("/app/tasks/add", JSON.stringify(newTask));
+      }
+    },
+    createCategory(newCategory) {
+      console.log("Creating a category and sending it to the server...");
+
+      if (this.isSocketConnected) {
+        this.stompClient.send("/app/categories/add", JSON.stringify(newCategory));
       }
     },
     updateTask(updatedTask) {
@@ -64,6 +79,13 @@ export default {
 
       if (this.isSocketConnected) {
         this.stompClient.send("/app/tasks/delete", JSON.stringify(taskToDelete));
+      }
+    },
+    deleteCategory(CategoryToDelete) {
+      console.log("Deleting a category from the server...");
+
+      if (this.isSocketConnected) {
+        this.stompClient.send("/app/categories/delete", JSON.stringify(CategoryToDelete));
       }
     },
     connect() {
@@ -82,6 +104,13 @@ export default {
         });
 
         this.getTasks();
+
+        this.stompClient.subscribe("/output/categories", (tick) => {
+          console.log(tick);
+          this.categories = JSON.parse(tick.body);
+        });
+
+        this.getCategories();
       },
       (error) => {
         console.log(error);

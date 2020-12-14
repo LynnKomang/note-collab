@@ -12,10 +12,10 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
-                                <label class="form-label">Category title</label>
-                                <input type="text" class="form-control" :class="isInputValid ? 'is-valid' : 'is-invalid'" v-model="title">
+                                <label class="form-label">Category name</label>
+                                <input type="text" class="form-control" :class="isInputValid ? 'is-valid' : 'is-invalid'" v-model="name">
                                 <div class="invalid-feedback">
-                                    Input must be between 3 to 50 characters and not include special symbols.
+                                    Input must be between 3 to 20 characters and not include special symbols.
                                 </div>
                             </div>
                             <div class="d-flex align-baseline justify-content-between">
@@ -35,27 +35,22 @@
 </template>
 
 <script>
-import { getTextColor } from '../utilities.js';
-
 export default {
     data: () => ({
-        title: "",
+        name: "",
         color: "#0275d8"
     }),
     computed: {
         isInputValid() {
-            const titleRegex = /^[A-Za-z0-9 \\.?!,]{3,50}$/;
+            const nameRegex = /^[A-Za-z0-9 \\.?!,]{3,20}$/;
 
-            return titleRegex.exec(this.title);
+            return nameRegex.exec(this.name);
         },
-        textColor() {
-            return getTextColor(this.color);
-        }
     },
     methods: {
         createCategory() {
             const newCategory = {
-                title: this.title,
+                name: this.name,
                 color: this.color,
             };
 
