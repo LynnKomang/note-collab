@@ -2,9 +2,9 @@
     <div class="card shadow rounded-3">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-baseline mb-2">
-                <div>
-                    <h3 class="card-title">{{ task.title }}</h3>
-                    <span class="badge"></span>
+                <div class="d-flex align-items-center">
+                    <h3 class="card-title me-2">{{ task.title }}</h3>
+                    <span class="badge bg-primary">Something</span>
                 </div>
                 <p class="card-text text-muted">{{ task.date }}</p>
             </div>
