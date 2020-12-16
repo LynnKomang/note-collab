@@ -92,14 +92,14 @@ export default {
       }
     },
     checkIfExists() {
-      return axios.get(`http://localhost:9000/exists/id/${this.$route.params.id}`)
+      return axios.get(`${process.env.VUE_APP_BACKEND_URL}/exists/id/${this.$route.params.id}`)
       .then((response) => response.data);
     },
     async connect() {
       if (!await this.checkIfExists()) {
         this.doesExist = false;
       } else {
-        this.socket = new SockJS("http://localhost:9000/gs-guide-websocket");
+        this.socket = new SockJS(`${process.env.VUE_APP_BACKEND_URL}/gs-guide-websocket`);
         this.stompClient = Stomp.over(this.socket);
 
         this.stompClient.connect({},

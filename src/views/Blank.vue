@@ -11,7 +11,7 @@ export default {
     name: "Blank",
     methods: {
         createWorkSpaceAndRedirect() {
-            axios.post("http://localhost:9000/workspaces/add").then((response) => {
+            axios.post(`${process.env.VUE_APP_BACKEND_URL}/workspaces/add`).then((response) => {
                 this.$router.push({name: 'WorkSpace', params: { id: response.data }});
             });
         }
