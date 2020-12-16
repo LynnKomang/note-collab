@@ -78,8 +78,8 @@ export default {
             const newTask = {
                 title: this.title,
                 content: this.content,
-                date: format(new Date(), "dd.MM.yyyy"),
-                deadline: this.deadline === '' ? '' : format(new Date(this.deadline), "dd.MM.yyyy"),
+                date: format(new Date(), "yyyy-MM-dd"),
+                deadline: this.deadline === '' ? '' : format(new Date(this.deadline), "yyyy-MM-dd"),
                 category: this.selectedCategory,
             };
 

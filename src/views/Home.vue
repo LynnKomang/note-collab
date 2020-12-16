@@ -17,6 +17,7 @@
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
+import axios from 'axios';
 
 import Task from '@/components/Task.vue'
 import CreateTask from '@/components/CreateTask.vue';
@@ -90,44 +91,42 @@ export default {
         this.stompClient.send(`/app/workspaces/id/${this.$route.params.id}/categories/delete`, JSON.stringify(CategoryToDelete));
       }
     },
-    connect() {
-      this.socket = new SockJS("http://localhost:9000/gs-guide-websocket");
-      this.stompClient = Stomp.over(this.socket);
+    checkIfExists() {
+      return axios.get(`http://localhost:9000/exists/id/${this.$route.params.id}`)
+      .then((response) => response.data);
+    },
+    async connect() {
+      if (!await this.checkIfExists()) {
+        this.doesExist = false;
+      } else {
+        this.socket = new SockJS("http://localhost:9000/gs-guide-websocket");
+        this.stompClient = Stomp.over(this.socket);
 
-      this.stompClient.connect({},
-      (frame) => {
-        this.isConnected = true;
+        this.stompClient.connect({},
+        (frame) => {
+          this.isConnected = true;
 
-        console.log(frame);
+          console.log(frame);
 
-        this.stompClient.subscribe(`/output/workspaces/${this.$route.params.id}/tasks`, (tick) => {
-          console.log(tick);
-          this.tasks = JSON.parse(tick.body);
+          this.stompClient.subscribe(`/output/workspaces/${this.$route.params.id}/tasks`, (tick) => {
+            console.log(tick);
+            this.tasks = JSON.parse(tick.body);
+          });
 
-          console.log("TASKS: ");
-          console.log(this.tasks);
-          if (this.tasks[0] === null) {
-            this.doesExist = false;
-          }
+          this.getTasks();
+
+          this.stompClient.subscribe(`/output/workspaces/${this.$route.params.id}/categories`, (tick) => {
+            console.log(tick);
+            this.categories = JSON.parse(tick.body);
+          });
+
+          this.getCategories();
+        },
+        (error) => {
+          console.log(error);
+          this.isConnected = false;
         });
-
-        this.getTasks();
-
-        this.stompClient.subscribe(`/output/workspaces/${this.$route.params.id}/categories`, (tick) => {
-          console.log(tick);
-          this.categories = JSON.parse(tick.body);
-
-          if (this.categories[0] === null) {
-            this.doesExist = false;
-          }
-        });
-
-        this.getCategories();
-      },
-      (error) => {
-        console.log(error);
-        this.isConnected = false;
-      });
+      }
     },
     disconnect() {
       if (this.stompClient) {
