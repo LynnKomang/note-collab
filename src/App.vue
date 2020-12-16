@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/" class="nav-link">Home</router-link>
+      <router-link to="/" class="nav-link text-center">Create a new Workspace!</router-link>
     </div>
     <router-view />
   </div>
