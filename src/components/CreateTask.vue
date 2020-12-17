@@ -1,7 +1,5 @@
 <template>
     <div>
-        <button class="btn btn-primary rounded-pill btn-lg fixed-bottom mb-4 ms-4"
-        data-bs-toggle="modal" data-bs-target="#exampleModal">New Task</button>
         <div class="modal" tabindex="-1" id="exampleModal">
             <div class="modal-dialog">
                 <div class="modal-content">
