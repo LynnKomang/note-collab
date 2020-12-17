@@ -8,6 +8,7 @@
       <Task v-for="task in tasks" :key="task.id" class="mx-auto mb-4" :task="task"
       @on-task-submit="updateTask(task)"
       @on-task-delete="deleteTask(task)" />
+      <MenuButtons />
       <CreateTask @on-task-created="createTask" :categories="categories" />
       <CreateCategory @on-category-created="createCategory" />
     </div>
@@ -22,6 +23,7 @@ import axios from 'axios';
 import Task from '@/components/Task.vue'
 import CreateTask from '@/components/CreateTask.vue';
 import CreateCategory from '@/components/CreateCategory.vue';
+import MenuButtons from '@/components/MenuButtons.vue';
 
 export default {
   name: 'Home',
@@ -29,6 +31,7 @@ export default {
     Task,
     CreateTask,
     CreateCategory,
+    MenuButtons,
   },
   data: () => ({
     tasks: null,
