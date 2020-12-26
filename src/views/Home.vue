@@ -4,6 +4,7 @@
     <h1 v-if="!doesExist">This link seems to lead to a non-existing workspace...</h1>
     <h1 v-else-if="tasks === null || categories === null" class="text-center">Loading tasks...</h1>
     <div v-else>
+      <QueryOptions />
       <h2 v-if="tasks.length === 0" class="text-center">It seems like there aren't any tasks here...</h2>
       <Task v-for="task in tasks" :key="task.id" class="mx-auto mb-4" :task="task"
       @on-task-submit="updateTask(task)"
@@ -24,6 +25,7 @@ import Task from '@/components/Task.vue'
 import CreateTask from '@/components/CreateTask.vue';
 import CreateCategory from '@/components/CreateCategory.vue';
 import MenuButtons from '@/components/MenuButtons.vue';
+import QueryOptions from '@/components/QueryOptions.vue';
 
 export default {
   name: 'Home',
@@ -32,6 +34,7 @@ export default {
     CreateTask,
     CreateCategory,
     MenuButtons,
+    QueryOptions
   },
   data: () => ({
     tasks: null,
