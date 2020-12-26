@@ -88,7 +88,9 @@ export default {
           break;
       }
 
-      return newTasks.filter((task) => task.title.includes(this.searchTitle));
+      return newTasks.filter((task) =>
+        task.title.toLowerCase().includes(this.searchTitle.toLowerCase())
+      );
     },
   },
   methods: {
