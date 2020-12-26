@@ -69,8 +69,7 @@ export default {
       switch (this.sortingOption) {
         case "date":
           newTasks = newTasks.sort(
-            ({ id: firstDate }, { id: secondDate }) =>
-              +firstDate - +secondDate
+            ({ id: firstDate }, { id: secondDate }) => +firstDate - +secondDate
           );
           break;
         case "title":
@@ -82,7 +81,9 @@ export default {
         case "category":
           newTasks = newTasks.sort(
             ({ category: firstCategory }, { category: secondCategory }) =>
-              firstCategory.name.toLowerCase().localeCompare(secondCategory.name.toLowerCase())
+              firstCategory.name
+                .toLowerCase()
+                .localeCompare(secondCategory.name.toLowerCase())
           );
           break;
       }

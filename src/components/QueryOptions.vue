@@ -36,12 +36,12 @@ export default {
     sortingOption: "date",
   }),
   watch: {
-      searchTitle() {
-          this.emitChange();
-      },
-      sortingOption() {
-          this.emitChange();
-      }
+    searchTitle() {
+      this.emitChange();
+    },
+    sortingOption() {
+      this.emitChange();
+    },
   },
   methods: {
     emitChange() {
